@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
 import logger from './config/logger.js';
+import cors from 'cors';
 
 // imprt router 
 import router from "./routes/auth.route.js"
@@ -11,6 +12,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
