@@ -42,5 +42,39 @@ export const signup = async (req,res)=>{
 
 
 //login 
+const login = async(req,res)=>{
+    try{
+        const {email,password} = req.body;
+
+        // check if user exists 
+        const user = await AuthUser.findOne({email})
+        if (!user){
+            logger.info(`User not found with email: ${email}`)
+            return res.status(404).json({
+                message:"User not found with the provided email",
+            })
+        }
+
+        // verufy pwd
+        const isPasswordValid = await argon.verify(user.password,password)
+        if (!isPasswordValid){
+            logger.info(`Invalid password for user: ${email}`)
+            return res.status(401).json({
+                message:"Invalid password",
+            })
+        }
+
+        logger.info(`User logged in successfully: ${email}`)
+        return res.status(200).json({
+            message:"User logged in successfully",
+            user: user
+        })
+    }catch(err){
+        logger.error(`Error occurred while logging in: ${err.message}`, err)
+        return res.status(500).json({message:"Internal server error",err:err.message})
+    }
+}
+
+
 
 //lolgout
