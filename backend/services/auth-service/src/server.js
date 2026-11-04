@@ -4,6 +4,9 @@ import morgan from 'morgan';
 import connectDB from './config/db.js';
 import logger from './config/logger.js';
 
+// imprt router 
+import router from "./routes/auth.route.js"
+
 dotenv.config();
 connectDB();
 
@@ -18,6 +21,9 @@ app.get('/', (req, res) => {
   logger.info('GET request received for home route');
   res.send('Hello World!');
 });
+
+// api 
+app.use("/api/v1/auth", router)
 
 const PORT = process.env.PORT || 3001;
 
