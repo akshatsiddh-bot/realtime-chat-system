@@ -1,5 +1,6 @@
 import AuthUser from "../models/auth-user.model.js";
 import argon from "argon2";
+import logger from "../config/logger.js";
 
 // signup 
 export const signup = async (req,res)=>{
