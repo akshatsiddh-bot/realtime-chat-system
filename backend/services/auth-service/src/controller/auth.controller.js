@@ -1,6 +1,7 @@
 import AuthUser from "../models/auth-user.model.js";
 import argon from "argon2";
 import logger from "../config/logger.js";
+import jwt from "jsonwebtoken";
 
 // signup 
 export const signup = async (req,res)=>{
@@ -42,7 +43,7 @@ export const signup = async (req,res)=>{
 
 
 //login 
-const login = async(req,res)=>{
+export const login = async(req,res)=>{
     try{
         const {email,password} = req.body;
 
@@ -64,10 +65,15 @@ const login = async(req,res)=>{
             })
         }
 
+        // generate jwt token
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1h"})
+
         logger.info(`User logged in successfully: ${email}`)
+        res.cookie("token", token)
         return res.status(200).json({
             message:"User logged in successfully",
-            user: user
+            user: user,
+            token: token
         })
     }catch(err){
         logger.error(`Error occurred while logging in: ${err.message}`, err)
@@ -78,3 +84,12 @@ const login = async(req,res)=>{
 
 
 //lolgout
+export const logout = async(req,res)=>{
+    try{
+
+    }
+    catch(err){
+        logger.error(`Error occurred while logging out: ${err.message}`, err)
+        return res.status(500).json({message:"Internal server error",err:err.message})
+    }
+}
