@@ -3,6 +3,10 @@ import dotenv from "dotenv"
 import logger from "../config/logger.js"
 import morgan from "morgan"
 import connectDB from "../config/db.js"
+import cors from "cors"
+import userRoutes from "../routes/user.route.js"
+import cookieParser from "cookie-parser";
+
 
 dotenv.config()
 
@@ -12,6 +16,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(morgan('dev'))
+
+app.use(cors())
+app.use(cookieParser());
+
+//api 
+app.use("/api/v1/user", userRoutes)
+
 
 const PORT = process.env.PORT || 4001
 

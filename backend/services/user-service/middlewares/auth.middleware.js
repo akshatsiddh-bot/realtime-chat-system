@@ -1,4 +1,4 @@
-import jwt from "jsonwentoken"
+import jwt from "jsonwebtoken";
 import logger from "../config/logger.js"
 
 const authMiddleware = (req, res, next) => {
