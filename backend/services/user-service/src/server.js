@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import logger from "../config/logger.js"
 import morgan from "morgan"
+import connectDB from "../config/db.js"
 
 dotenv.config()
 
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 4001
 
 const startServer = async () =>{
     try {
-        // await connectDB();
+        await connectDB();
 
         app.listen(PORT, () => {
             logger.info(`Server is running on port ${PORT}`);
